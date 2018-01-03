@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+  <title>CSVLayer - 4.6</title>
+
+  <style>
+    html,
+    body,
+    #viewDiv {
+      padding: 0;
+      margin: 0;
+      height: 100%;
+      width: 100%;
+    }
+  </style>
+
+  <link rel="stylesheet" href="https://js.arcgis.com/4.6/esri/css/main.css">
+  <script src="https://js.arcgis.com/4.6/"></script>
+
+  <script>
+    require([
+      "esri/Map",
+      "esri/layers/CSVLayer",
+      "esri/views/SceneView",
+      "esri/config",
+      "esri/core/urlUtils",
+      "dojo/domReady!"
+    ], function(
+      Map,
+      CSVLayer,
+      SceneView,
+      esriConfig,
+      urlUtils
+    ) {
+
+      // If CSV files are not on the same domain as your website, a CORS enabled server
+      // or a proxy is required.
+     
+    
+      var csvLayer = new CSVLayer({
+        url: "crime.csv",
+        latitudeField : "latitude",
+        longitudeField: "longitude"
+      
+      });
+
+ 
+    
+      var map = new Map({
+        basemap: "gray",
+        layers: [csvLayer]
+      });
+
+      var view = new SceneView({
+        container: "viewDiv",
+        center: [-76.6122 , 39.2904],
+        zoom: 14,
+        map: map
+      });
+
+    });
+  </script>
+</head>
+
+<body>
+  <div id="viewDiv"></div>
+</body>
+
+</html>
