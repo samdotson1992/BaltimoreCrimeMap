@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
     <title>CSVLayer - 4.6</title>
-
+    <link rel="stylesheet" href="https://js.arcgis.com/4.6/esri/css/main.css">
 
     <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
     <style>
@@ -27,6 +27,7 @@
             "esri/Map",
             "esri/layers/CSVLayer",
             "esri/views/MapView",
+            "esri/widgets/Legend",
             "esri/config",
             "esri/core/urlUtils",
             "esri/renderers/UniqueValueRenderer",
@@ -35,6 +36,7 @@
             Map,
             CSVLayer,
             MapView,
+            Legend,
             esriConfig,
             urlUtils,
             UniqueValueRenderer
@@ -50,6 +52,7 @@
                 return {
                     type: "simple-marker", 
                     color: color,
+                    size: "8px",
                     outline: {
                         width: 0.1,
                         color: [255, 255, 255, 0.5]
@@ -123,8 +126,6 @@
             });
 
 
-
-
             var map = new Map({
                 basemap: "gray",
                 layers: [csvLayer]
@@ -137,6 +138,14 @@
                 map: map
             });
 
+            var legend = new Legend({
+            view: view,
+            layerInfos: [{
+              layer: csvLayer,
+              title: "Crime in Baltimore, Maryland"
+            }]
+          });
+          view.ui.add(legend, "bottom-right");
         });
     </script>
 </head>
