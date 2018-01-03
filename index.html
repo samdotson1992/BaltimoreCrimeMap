@@ -39,9 +39,15 @@
       // If CSV files are not on the same domain as your website, a CORS enabled server
       // or a proxy is required.
      
+
+
+
+      var url = "https://data.baltimorecity.gov/resource/4ih5-d5d5.csv";
+esriConfig.request.corsEnabledServers.push(url);
+
     
       var csvLayer = new CSVLayer({
-        url: "crime.csv",
+        url: url,
         latitudeField : "latitude",
         longitudeField: "longitude"
       
