@@ -41,8 +41,11 @@
       urlUtils
     ) {
 
-      // If CSV files are not on the same domain as your website, a CORS enabled server
-      // or a proxy is required.
+        const dojoConfig = {
+    has: {
+      "esri-featurelayer-webgl": 1
+    }
+  };
     
 
       var url = "crime.csv";  
