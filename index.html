@@ -29,14 +29,14 @@
     require([
       "esri/Map",
       "esri/layers/CSVLayer",
-      "esri/views/SceneView",
+      "esri/views/MapView",
       "esri/config",
       "esri/core/urlUtils",
       "dojo/domReady!"
     ], function(
       Map,
       CSVLayer,
-      SceneView,
+      MapView,
       esriConfig,
       urlUtils
     ) {
@@ -79,7 +79,7 @@ esriConfig.request.corsEnabledServers.push(url);
         layers: [csvLayer]
       });
 
-      var view = new SceneView({
+      var view = new MapView({
         container: "viewDiv",
         center: [-76.6122 , 39.2904],
         zoom: 14,
