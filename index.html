@@ -43,19 +43,10 @@
 
       // If CSV files are not on the same domain as your website, a CORS enabled server
       // or a proxy is required.
-     
-      $.ajax({
-    url: "https://data.baltimorecity.gov/resource/4ih5-d5d5.json",
-    type: "GET",
-    data: {
-      "$limit" : 5000,
-      "$$app_token" : "McrhUilmDvHrEQtnhJoyvuuGf"
-    }
-}).done(function(data) {
-  alert("Retrieved " + data.length + " records from the dataset!");
-  console.log(data);
-});
+    
 
+      var url = "/crime.csv";
+esriConfig.request.corsEnabledServers.push(url);
 
 
       var csvLayer = new CSVLayer({
