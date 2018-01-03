@@ -2,96 +2,147 @@
 <html>
 
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
-  <title>CSVLayer - 4.6</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+    <title>CSVLayer - 4.6</title>
 
 
-  <script
-  src="https://code.jquery.com/jquery-3.2.1.js"
-  integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
-  crossorigin="anonymous"></script>
-  <style>
-    html,
-    body,
-    #viewDiv {
-      padding: 0;
-      margin: 0;
-      height: 100%;
-      width: 100%;
-    }
-  </style>
+    <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+    <style>
+        html,
+        body,
+        #viewDiv {
+            padding: 0;
+            margin: 0;
+            height: 100%;
+            width: 100%;
+        }
+    </style>
 
-  <link rel="stylesheet" href="https://js.arcgis.com/4.6/esri/css/main.css">
-  <script src="https://js.arcgis.com/4.6/"></script>
+    <link rel="stylesheet" href="https://js.arcgis.com/4.6/esri/css/main.css">
+    <script src="https://js.arcgis.com/4.6/"></script>
 
-  <script>
-    require([
-      "esri/Map",
-      "esri/layers/CSVLayer",
-      "esri/views/MapView",
-      "esri/config",
-      "esri/core/urlUtils",
-      "dojo/domReady!"
-    ], function(
-      Map,
-      CSVLayer,
-      MapView,
-      esriConfig,
-      urlUtils
-    ) {
+    <script>
+        require([
+            "esri/Map",
+            "esri/layers/CSVLayer",
+            "esri/views/MapView",
+            "esri/config",
+            "esri/core/urlUtils",
+            "esri/renderers/UniqueValueRenderer",
+            "dojo/domReady!"
+        ], function (
+            Map,
+            CSVLayer,
+            MapView,
+            esriConfig,
+            urlUtils,
+            UniqueValueRenderer
+        ) {
 
-        const dojoConfig = {
-    has: {
-      "esri-featurelayer-webgl": 1
-    }
-  };
-    
+            const dojoConfig = {
+                has: {
+                    "esri-featurelayer-webgl": 1
+                }
+            };
 
-      var url = "crime.csv";  
-esriConfig.request.corsEnabledServers.push(url);
+            function createSymbol(color) {
+                return {
+                    type: "simple-marker", 
+                    color: color,
+                    outline: {
+                        width: 0.1,
+                        color: [255, 255, 255, 0.5]
+                    }
+                };
+            }
+
+            var renderer = {
+                type: "unique-value", 
+                field: "description",
+                defaultSymbol: {
+                    type: "simple-marker"
+                }, 
+                uniqueValueInfos: [{
+                        value: 'ROBBERY - STREET',
+                        symbol: createSymbol('#F59186')
+                    }, {
+                        value: 'AUTO THEFT',
+                        symbol: createSymbol('#757AF2')
+                    }, {
+                        value: 'BURGLARY',
+                        symbol: createSymbol('#D0697D')
+                    }, {
+                        value: 'LARCENY',
+                        symbol: createSymbol('#C50087')
+                    }, {
+                        value: 'COMMON ASSAULT',
+                        symbol: createSymbol('#33B54D')
+                    }, {
+                        value: 'LARCENY FROM AUTO',
+                        symbol: createSymbol('#67DD04')
+                    }, {
+                        value: 'AGG. ASSAULT',
+                        symbol: createSymbol('#4196E5')
+                    }, {
+                        value: 'ARSON',
+                        symbol: createSymbol('#513917')
+                    }, {
+                        value: 'ROBBERY - CARJACKING',
+                        symbol: createSymbol('#C026FB')
+                    }, {
+                        value: 'ASSAULT BY THREAT',
+                        symbol: createSymbol('#17CBB6')
+                    }, {
+                        value: 'ROBBERY - COMMERCIAL',
+                        symbol: createSymbol('#93FD58')
+                    }, {
+                        value: 'ROBBERY - RESIDENCE',
+                        symbol: createSymbol('#6B6DCE')
+                    }, {
+                        value: 'RAPE',
+                        symbol: createSymbol('#85846D')
+                    }
+
+                ]
+            };
+            // All features with value of "North" will be blue
+
+            // All features with value of "East" will be green
 
 
-      var csvLayer = new CSVLayer({
-        url: url,
-        latitudeField : "latitude",
-        longitudeField: "longitude"
-      
-      });
+            var url = "crime.csv";
+            esriConfig.request.corsEnabledServers.push(url);
 
 
-      csvLayer.renderer  = {
-  type: "simple",  // autocasts as new SimpleRenderer()
-  symbol: {
-    type: "simple-marker",  // autocasts as new SimpleMarkerSymbol()
-    size: 6,
-    color: "orange",
-    outline: {  // autocasts as new SimpleLineSymbol()
-      width: 0.5,
-      color: "white"
-    }
-  }
-};
- 
-    
-      var map = new Map({
-        basemap: "gray",
-        layers: [csvLayer]
-      });
+            var csvLayer = new CSVLayer({
+                url: url,
+                latitudeField: "latitude",
+                longitudeField: "longitude",
+                renderer: renderer
+            });
 
-      var view = new MapView({
-        container: "viewDiv",
-        center: [-76.6122 , 39.2904],
-        zoom: 12,
-        map: map
-      });
 
-    });
-  </script>
+
+
+            var map = new Map({
+                basemap: "gray",
+                layers: [csvLayer]
+            });
+
+            var view = new MapView({
+                container: "viewDiv",
+                center: [-76.6122, 39.2904],
+                zoom: 12,
+                map: map
+            });
+
+        });
+    </script>
 </head>
 
 <body>
-  <div id="viewDiv"></div>
+    <div id="viewDiv"></div>
 </body>
 
 </html>
