@@ -57,19 +57,16 @@ esriConfig.request.corsEnabledServers.push(url);
       });
 
 
-      csvLayer.renderer = {
+      csvLayer.renderer  = {
   type: "simple",  // autocasts as new SimpleRenderer()
   symbol: {
-    type: "point-3d",  // autocasts as new PointSymbol3D()
-    symbolLayers: [{
-      type: "icon",  // autocasts as new IconSymbol3DLayer()
-      material: { color: [238, 69, 0, 0.75] },
-      outline: {
-        width: 0.5,
-        color: "white"
-      },
-      size: "12px"
-    }]
+    type: "simple-marker",  // autocasts as new SimpleMarkerSymbol()
+    size: 6,
+    color: "orange",
+    outline: {  // autocasts as new SimpleLineSymbol()
+      width: 0.5,
+      color: "white"
+    }
   }
 };
  
