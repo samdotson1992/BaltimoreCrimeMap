@@ -6,6 +6,11 @@
   <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
   <title>CSVLayer - 4.6</title>
 
+
+  <script
+  src="https://code.jquery.com/jquery-3.2.1.js"
+  integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
+  crossorigin="anonymous"></script>
   <style>
     html,
     body,
@@ -39,13 +44,20 @@
       // If CSV files are not on the same domain as your website, a CORS enabled server
       // or a proxy is required.
      
+      $.ajax({
+    url: "https://data.baltimorecity.gov/resource/4ih5-d5d5.json",
+    type: "GET",
+    data: {
+      "$limit" : 5000,
+      "$$app_token" : "McrhUilmDvHrEQtnhJoyvuuGf"
+    }
+}).done(function(data) {
+  alert("Retrieved " + data.length + " records from the dataset!");
+  console.log(data);
+});
 
 
 
-      var url = "https://data.baltimorecity.gov/resource/4ih5-d5d5.csv";
-esriConfig.request.corsEnabledServers.push(url);
-
-    
       var csvLayer = new CSVLayer({
         url: url,
         latitudeField : "latitude",
