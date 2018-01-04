@@ -118,11 +118,19 @@
             esriConfig.request.corsEnabledServers.push(url);
 
 
+
+            var template = {
+        title: "{description}",
+        content: "Description: {description} <br> neighborhood: {neighborhood} <br> Premise: {premise} <br>	Weapon (if applicable): {weapon}"
+      };
+   
             var csvLayer = new CSVLayer({
                 url: url,
                 latitudeField: "latitude",
                 longitudeField: "longitude",
-                renderer: renderer
+                renderer: renderer,
+                popupTemplate: template
+                
             });
 
 
