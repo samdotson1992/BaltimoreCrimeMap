@@ -4,9 +4,10 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
-    <title>CSVLayer - 4.6</title>
+    <title>Baltimore Crime Map</title>
     <link rel="stylesheet" href="https://js.arcgis.com/4.6/esri/css/main.css">
-
+    <link rel="stylesheet" href="https://s3-us-west-1.amazonaws.com/patterns.esri.com/files/calcite-web/1.0.0-rc.8/css/calcite-web.min.css">
+    <script src="https://s3-us-west-1.amazonaws.com/patterns.esri.com/files/calcite-web/1.0.0-rc.8/js/calcite-web.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
     <style>
         html,
@@ -28,6 +29,8 @@
             "esri/layers/CSVLayer",
             "esri/views/MapView",
             "esri/widgets/Legend",
+            "esri/widgets/BasemapToggle",
+            "esri/renderers/smartMapping/statistics/histogram",
             "esri/config",
             "esri/core/urlUtils",
             "esri/renderers/UniqueValueRenderer",
@@ -37,6 +40,8 @@
             CSVLayer,
             MapView,
             Legend,
+            BasemapToggle,
+            histogram,
             esriConfig,
             urlUtils,
             UniqueValueRenderer
@@ -50,7 +55,7 @@
 
             function createSymbol(color) {
                 return {
-                    type: "simple-marker", 
+                    type: "simple-marker",
                     color: color,
                     size: "8px",
                     outline: {
@@ -61,11 +66,11 @@
             }
 
             var renderer = {
-                type: "unique-value", 
+                type: "unique-value",
                 field: "description",
                 defaultSymbol: {
                     type: "simple-marker"
-                }, 
+                },
                 uniqueValueInfos: [{
                         value: 'ROBBERY - STREET',
                         symbol: createSymbol('#F59186')
@@ -109,30 +114,25 @@
 
                 ]
             };
-            // All features with value of "North" will be blue
-
-            // All features with value of "East" will be green
-
 
             var url = "crime.csv";
             esriConfig.request.corsEnabledServers.push(url);
 
 
-
             var template = {
-        title: "{description}",
-        content: "Description: {description} <br> neighborhood: {neighborhood} <br> Premise: {premise} <br>	Weapon (if applicable): {weapon}"
-      };
-   
+                title: "{description}",
+                content: "Description: {description} <br> neighborhood: {neighborhood} <br> Premise: {premise} <br>	Weapon (if applicable): {weapon}"
+            };
+
             var csvLayer = new CSVLayer({
                 url: url,
                 latitudeField: "latitude",
                 longitudeField: "longitude",
                 renderer: renderer,
                 popupTemplate: template
-                
-            });
 
+            });
+            
 
             var map = new Map({
                 basemap: "gray",
@@ -146,19 +146,26 @@
                 map: map
             });
 
+            var basemapToggle = new BasemapToggle({
+                view: view,
+                nextBasemap: "satellite"
+            });
+
             var legend = new Legend({
-            view: view,
-            layerInfos: [{
-              layer: csvLayer,
-              title: "Crime in Baltimore, Maryland"
-            }]
-          });
-          view.ui.add(legend, "bottom-right");
+                view: view,
+                layerInfos: [{
+                    layer: csvLayer,
+                    title: "Victim based crime in Baltimore",
+                }]
+            });
+            view.ui.add(legend, "bottom-right");
         });
     </script>
 </head>
 
 <body>
+    <div>
+    <h1> Victim based crime in Baltimore, Maryland </h1> <a  href="https://data.baltimorecity.gov/Public-Safety/BPD-Part-1-Victim-Based-Crime-Data/wsfq-mvij"> Get the dataset here </a>  </div>
     <div id="viewDiv"></div>
 </body>
 
